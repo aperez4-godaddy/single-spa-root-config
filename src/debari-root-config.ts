@@ -6,6 +6,7 @@ import {
 } from "single-spa-layout";
 import microfrontendLayout from "./microfrontend-layout.html";
 
+// this doesn't work bc the layout engine must be called with an html element
 const routes = constructRoutes(microfrontendLayout);
 const applications = constructApplications({
   routes,
