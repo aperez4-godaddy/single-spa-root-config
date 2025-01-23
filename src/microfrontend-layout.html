@@ -1,25 +1,27 @@
-<single-spa-router>
-  <!--
+<template id="single-spa-layout">
+  <single-spa-router>
+    <!--
 
-    This is the single-spa Layout Definition for your microfrontends.
-    See https://single-spa.js.org/docs/layout-definition/ for more information.
+      This is the single-spa Layout Definition for your microfrontends.
+      See https://single-spa.js.org/docs/layout-definition/ for more information.
 
-  -->
+    -->
 
-  <!-- Example layouts you might find helpful:
+    <!-- Example layouts you might find helpful:
 
-  <nav>
-    <application name="@org/navbar"></application>
-  </nav>
-  <route path="settings">
-    <application name="@org/settings"></application>
-  </route>
-
-  -->
-
-  <main>
-    <route default>
-      <application name="vite-mfe"></application>
+    <nav>
+      <application name="@org/navbar"></application>
+    </nav>
+    <route path="settings">
+      <application name="@org/settings"></application>
     </route>
-  </main>
-</single-spa-router>
+
+    -->
+
+    <main>
+      <route default>
+        <application name="vite-mfe"></application>
+      </route>
+    </main>
+  </single-spa-router>
+</template>
