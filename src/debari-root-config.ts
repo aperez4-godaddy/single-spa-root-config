@@ -9,7 +9,6 @@ import "systemjs";
 
 System.addImportMap({
   imports: {
-    "@debari/root-config": "//localhost:9000/debari-root-config.js",
     "vite-mfe": "http://localhost:5173/microfrontend.js",
   },
 });
