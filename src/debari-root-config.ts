@@ -7,7 +7,6 @@ import {
 import microfrontendLayout from "./microfrontend-layout.html";
 import "systemjs";
 import { oktaAuth } from "./okta-oauth";
-import { toRelativeUrl } from "@okta/okta-auth-js";
 import "regenerator-runtime/runtime";
 
 System.addImportMap({
@@ -31,22 +30,6 @@ applications.forEach(registerApplication);
 
 layoutEngine.activate();
 
-async function handleOktaLoginCallback() {
-  try {
-    await oktaAuth.handleLoginRedirect();
-    const tokens = await oktaAuth.tokenManager.getTokens();
-
-    if (tokens) {
-      window.history.replaceState({}, document.title, "/");
-    } else {
-      window.history.replaceState({}, document.title, "/");
-    }
-  } catch (error) {
-    console.error("Okta login callback error:", error);
-    window.history.replaceState({}, document.title, "/");
-  }
-}
-
 // Function to initialize Okta and start single-spa conditionally
 async function initializeApp() {
   try {
@@ -55,15 +38,15 @@ async function initializeApp() {
     if (isAuthenticated) {
       start();
     } else if (window.location.pathname.startsWith("/login/callback")) {
-      await handleOktaLoginCallback();
-      start();
+      const redirectUri = oktaAuth.getOriginalUri();
+      await oktaAuth.handleRedirect();
+      window.location.replace(redirectUri || window.location.origin + "/");
     } else {
-      const originalUri = toRelativeUrl(
-        window.location.href,
-        window.location.origin
-      );
+      const originalUri = window.location.href;
       oktaAuth.setOriginalUri(originalUri);
-      oktaAuth.signInWithRedirect();
+      oktaAuth.signInWithRedirect({
+        redirectUri: window.location.origin + "/login/callback",
+      });
       return;
     }
   } catch (error) {
