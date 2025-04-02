@@ -1,7 +1,7 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "debari";
@@ -18,7 +18,7 @@ module.exports = (webpackConfigEnv, argv) => {
     plugins: [
       new Dotenv({
         safe: true, // Ensures required variables exist
-        systemvars: true
+        systemvars: true,
       }), // Allows access to system environment variables),
       new HtmlWebpackPlugin({
         inject: false,
