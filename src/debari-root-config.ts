@@ -30,6 +30,14 @@ applications.forEach(registerApplication);
 
 layoutEngine.activate();
 
+const redirectToCallback = () => {
+  const originalUri = oktaAuth.getOriginalUri();
+  oktaAuth.setOriginalUri(originalUri);
+  oktaAuth.signInWithRedirect({
+    redirectUri: window.location.origin + "/login/callback",
+  });
+};
+
 // Function to initialize Okta and start single-spa conditionally
 async function initializeApp() {
   try {
@@ -42,11 +50,7 @@ async function initializeApp() {
       await oktaAuth.handleRedirect();
       window.location.replace(redirectUri || window.location.origin + "/");
     } else {
-      const originalUri = window.location.href;
-      oktaAuth.setOriginalUri(originalUri);
-      oktaAuth.signInWithRedirect({
-        redirectUri: window.location.origin + "/login/callback",
-      });
+      redirectToCallback();
       return;
     }
   } catch (error) {
